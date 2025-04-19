@@ -1,4 +1,6 @@
 import { browser } from "$app/environment";
+import { marked } from "marked";
+import sanitize from "sanitize-html";
 
 
 
@@ -15,4 +17,10 @@ export function getLocalStorage (): string {
 
 export function setLocalStorage (html: string) {
 	if (browser) localStorage.setItem(LOCAL_STORAGE_KEY, html);
+}
+
+export function markdownToHtml (markdown: string) {
+	const rawHtml = marked.parse(markdown);
+	const sanitizedHtml = (typeof rawHtml == 'string') ? sanitize(rawHtml) : "";
+	return sanitizedHtml;
 }

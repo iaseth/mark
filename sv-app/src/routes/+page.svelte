@@ -6,10 +6,8 @@
 <script lang="ts">
 	import Input from "$lib/components/Input.svelte";
 	import Output from "$lib/components/Output.svelte";
-import { DEFAULT_MARKDOWN, getLocalStorage, setLocalStorage } from "$lib/localstorage";
-	import { marked } from "marked";
-	import sanitize from "sanitize-html";
 	import { onMount } from "svelte";
+	import { DEFAULT_MARKDOWN, getLocalStorage, markdownToHtml, setLocalStorage } from "$lib/localstorage";
 
 	let markdown = $state(DEFAULT_MARKDOWN);
 	let mounted = $state(false);
@@ -18,9 +16,7 @@ import { DEFAULT_MARKDOWN, getLocalStorage, setLocalStorage } from "$lib/localst
 			setLocalStorage(markdown);
 		}
 
-		const rawHtml = marked.parse(markdown);
-		const sanitizedHtml = (typeof rawHtml == 'string') ? sanitize(rawHtml) : "";
-		return sanitizedHtml;
+		return markdownToHtml(markdown);
 	});
 
 	onMount(() => {
