@@ -15,4 +15,4 @@
 </script>
 
 <textarea bind:this={me} id="input" bind:value={value}
-	class="w-full grow font-mono leading-relaxed bg-base-100 resize-none border-0 outline-0"></textarea>
+	class="block w-full h-screen container grow bg-base-200 font-mono leading-relaxed bg-base-100 resize-none border-0 outline-0"></textarea>

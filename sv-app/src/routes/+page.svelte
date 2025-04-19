@@ -19,18 +19,45 @@
 		return markdownToHtml(markdown);
 	});
 
+	let mode = $state('dual');
+	function switchMode () {
+		const modes = ['dual', 'edit', 'view'];
+		const currentIndex = modes.indexOf(mode);
+		const nextIndex = (currentIndex + 1) % modes.length;
+		mode = modes[nextIndex];
+	}
+
+	function onkeydown (e: KeyboardEvent) {
+		if (e.ctrlKey && e.key.toLowerCase() === 'm') {
+			e.preventDefault();
+			switchMode();
+		}
+	}
+
 	onMount(() => {
 		markdown = getLocalStorage();
 		mounted = true;
 	});
 </script>
 
-<section class="min-h-screen grid grid-cols-2">
-	<section class="px-4 py-6">
-		<Output {html} />
-	</section>
+<svelte:window {onkeydown} />
 
-	<section class="h-screen flex flex-col">
+{#if mode === 'edit'}
+	<section class="min-h-screen">
 		<Input bind:value={markdown} />
 	</section>
-</section>
+{:else if mode === 'view'}
+	<section class="min-h-screen">
+		<Output {html} />
+	</section>
+{:else}
+	<section class="min-h-screen grid grid-cols-2">
+		<section>
+			<Output {html} />
+		</section>
+
+		<section class="h-screen flex flex-col">
+			<Input bind:value={markdown} />
+		</section>
+	</section>
+{/if}
