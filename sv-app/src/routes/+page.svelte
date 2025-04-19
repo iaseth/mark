@@ -4,11 +4,13 @@
 </svelte:head>
 
 <script lang="ts">
+	import { getLocalStorage, setLocalStorage } from "$lib/localstorage";
 	import { marked } from "marked";
 	import sanitize from "sanitize-html";
 
-	let markdown = $state('# Welcome to Mark');
+	let markdown = $state(getLocalStorage());
 	let html = $derived.by(() => {
+		setLocalStorage(markdown);
 		const rawHtml = marked.parse(markdown);
 		const sanitizedHtml = (typeof rawHtml == 'string') ? sanitize(rawHtml) : "";
 		return sanitizedHtml;
@@ -21,6 +23,6 @@
 	</section>
 
 	<section class="">
-		<textarea class="w-full h-full textarea" bind:value={markdown}></textarea>
+		<textarea autofocus class="w-full h-full textarea textarea-primary" bind:value={markdown}></textarea>
 	</section>
 </section>
