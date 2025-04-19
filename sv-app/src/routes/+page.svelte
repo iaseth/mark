@@ -4,25 +4,37 @@
 </svelte:head>
 
 <script lang="ts">
-	import { getLocalStorage, setLocalStorage } from "$lib/localstorage";
+	import Input from "$lib/components/Input.svelte";
+	import Output from "$lib/components/Output.svelte";
+import { DEFAULT_MARKDOWN, getLocalStorage, setLocalStorage } from "$lib/localstorage";
 	import { marked } from "marked";
 	import sanitize from "sanitize-html";
+	import { onMount } from "svelte";
 
-	let markdown = $state(getLocalStorage());
+	let markdown = $state(DEFAULT_MARKDOWN);
+	let mounted = $state(false);
 	let html = $derived.by(() => {
-		setLocalStorage(markdown);
+		if (mounted) {
+			setLocalStorage(markdown);
+		}
+
 		const rawHtml = marked.parse(markdown);
 		const sanitizedHtml = (typeof rawHtml == 'string') ? sanitize(rawHtml) : "";
 		return sanitizedHtml;
 	});
+
+	onMount(() => {
+		markdown = getLocalStorage();
+		mounted = true;
+	});
 </script>
 
 <section class="min-h-screen grid grid-cols-2">
-	<section class="px-4 py-6 prose">
-		{@html html}
+	<section class="px-4 py-6">
+		<Output {html} />
 	</section>
 
-	<section class="">
-		<textarea autofocus class="w-full h-full textarea textarea-primary" bind:value={markdown}></textarea>
+	<section class="h-screen flex flex-col">
+		<Input bind:value={markdown} />
 	</section>
 </section>
