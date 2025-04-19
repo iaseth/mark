@@ -51,12 +51,12 @@
 		<Output {html} />
 	</section>
 {:else}
-	<section class="min-h-screen grid grid-cols-2">
-		<section>
+	<section class="h-screen grid grid-cols-2 overflow-y-hidden">
+		<section class="h-full overflow-y-auto">
 			<Output {html} />
 		</section>
 
-		<section class="h-screen flex flex-col">
+		<section class="h-full flex flex-col">
 			<Input bind:value={markdown} />
 		</section>
 	</section>

@@ -9,3 +9,7 @@
 .container {
 	@apply max-w-3xl mx-auto;
 }
+
+.nostyles {
+	@apply border-none outline-none focus:ring-0 focus:outline-none shadow-none focus:shadow-none;
+}

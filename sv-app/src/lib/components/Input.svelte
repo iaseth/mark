@@ -1,6 +1,7 @@
 
 <script lang="ts">
 	import { onMount } from "svelte";
+	import type { KeyboardEventHandler } from "svelte/elements";
 
 	interface Props {
 		value: string
@@ -14,5 +15,5 @@
 	});
 </script>
 
-<textarea bind:this={me} id="input" bind:value={value}
-	class="block w-full h-screen container grow bg-base-200 font-mono leading-relaxed bg-base-100 resize-none border-0 outline-0"></textarea>
+<textarea bind:this={me} id="input" bind:value={value} rows={10}
+	class="block container w-full min-h-screen grow px-6 py-8 bg-base-200 font-mono leading-relaxed overflow-none resize-none nostyles"></textarea>
